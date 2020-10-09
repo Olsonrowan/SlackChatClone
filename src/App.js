@@ -1,9 +1,13 @@
 import React from 'react';
-import { render } from 'react-dom';
+import LoginPage from './pages/LoginPage'
 
-function App(){
-    render(
-        <h1>firebase log in</h1>
-    )
-}
+class App extends React.Component{
+    render(){
+        return(
+            <div>
+                <LoginPage />
+            </div>
+        )
+    }
+};
 export default App
