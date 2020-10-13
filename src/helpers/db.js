@@ -1,5 +1,5 @@
 import { db } from '../services/firebase'
-​
+
 export function addChatterChannel(name, userId) {
   return db.collection('channels').add({
     name,
@@ -9,7 +9,7 @@ export function addChatterChannel(name, userId) {
     dateCreated: new Date()
   })
 }
-​
+
 export function addChannelMessage(message) {
   return db.collection('messages').add({
     text: message.text,
@@ -18,11 +18,11 @@ export function addChannelMessage(message) {
     channelId: message.channelId
   })
 }
-​
+
 export function deleteChannel(channelId) {
   return db.collection('channels').doc(channelId).delete()
 }
-​
+
 export function addNewUser(user) {
   return db.collection('users').add({
     uid: user.uid,
@@ -30,7 +30,7 @@ export function addNewUser(user) {
     photoURL: user.photoURL
   })
 }
-​
+
 export function joinChannel(channel, userId) {
   console.log(channel, userId)
   return db.collection('channels').doc(channel.id).set({

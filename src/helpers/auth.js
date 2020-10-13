@@ -16,3 +16,14 @@ export function signInWithGoogle() {
 export function signout() {
   return auth().signOut()
 }
+
+// export function updateDisplayName(displayName, photoURL){
+//   return auth().currentUser.updateProfile({
+//     displayName: "",
+//     photoURL: ''
+//   }).then(function() {
+//     // Update successful.
+//   }).catch(function(error) {
+//     console.log(error)
+//   });
+// }
