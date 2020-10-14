@@ -1,7 +1,7 @@
 import TYPES from "./type";
 import { combineReducers } from 'redux'
 
-export function userReducer(state = {authState: false}, action){
+export function userReducer(state = {authState: true, uid: 'wQJc8h6teCY0WC45WFegSetkZpS2', photoUrl: null, displayName: 'Rowan' }, action){
     if(action.type === TYPES.USER_DATA){
         return {
             ...state,

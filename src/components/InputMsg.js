@@ -5,14 +5,13 @@ import { messageAction } from '../Redux/actionCreators'
 
  class InputMsg extends React.Component{
     
+    
     handleSubmit = () =>{
-        let {msg, displayName} = this.state
-        this.props.userAction(messageAction)
-        //firestore in and out
+        firebase.firestore().collection('messages').add({messageBody: this.state.message, channelId: this.props.channelId, userId: this.props.user.uid} )
             
     }
 
-
+    
 
     getMessages = () =>{
         firebase.firestore().collection('messages').where("channelId", "==", this.props.selectedChannel).get().then( response =>{
@@ -42,14 +41,14 @@ import { messageAction } from '../Redux/actionCreators'
             <div>
                 <form onSubmit={this.handleLogin}>
 
-                    <label htmlFor="msg">Text Box:</label>
+                    <label htmlFor="message">Text Box:</label>
                         <input 
                         type='text' 
-                        name='msg' 
-                        id="msg" 
+                        name='message' 
+                        id="message" 
                         placeholder="Type a message!" 
                         onChange={ this.handleChange } 
-                        value={ this.state.msg }
+                        value={ this.state.message }
                         />
 
                     
@@ -65,6 +64,12 @@ import { messageAction } from '../Redux/actionCreators'
  const mapDispatchToProps ={
     messageAction
   }
+
+  const mapStateToProps = state => ({
+    channelId: state.channels.selectedChannel,
+    user: state.user
+  })
+
   
 
- export default connect(null, mapDispatchToProps)(InputMsg)
+ export default connect(mapStateToProps, mapDispatchToProps)(InputMsg)

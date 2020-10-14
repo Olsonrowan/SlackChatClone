@@ -5,6 +5,7 @@ import { Register } from '../helpers/auth'
 import { Link } from 'react-router-dom'
 import { userAction } from '../Redux/actionCreators'
 import { connect } from 'react-redux';
+import firebase from 'firebase';
 
 
 
@@ -21,6 +22,11 @@ class SignUpPage extends React.Component{
     
     }
     
+    addUser = async (signUpUser) =>{
+        console.log(signUpUser)
+       return await firebase.firestore().collection('Users').add({uid: signUpUser.user.uid, displayName: signUpUser.user.displayName})
+       
+    }
 
     handleChange = event => {
         this.setState({
@@ -33,9 +39,13 @@ class SignUpPage extends React.Component{
         try {
             let {displayName, email, password} = this.state
             let signUpUser = await Register(displayName, email, password)
-            this.props.userAction(signUpUser)
+            console.log(signUpUser, 'hereis what you look for')
+
+            // this.props.userAction(signUpUser)
+            this.props.userAction(this.addUser(signUpUser))
             console.log(signUpUser)
             this.success()
+        
         } catch (err) {
             this.error(err)
         }
