@@ -40,3 +40,17 @@ export function joinChannel(channel, userId) {
     ]
   }, { merge: true })
 }
+
+// export function getChatList(){
+//   let result = db.collection('channels').get().then(response =>{
+//     let channelArr = [];
+//     response.forEach(channel => {
+//       channelArr.push(channel.data())
+//     });
+//     console.log(channelArr)
+//     return channelArr;
+//   }, reject =>{
+//     console.log(reject)
+//   })
+//   return result
+// }

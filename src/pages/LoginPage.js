@@ -2,7 +2,8 @@ import React from 'react';
 import { signin, signInWithGoogle } from '../helpers/auth'
 import { addNewUser } from '../helpers/db'
 import { Link } from 'react-router-dom'
-
+import { connect } from 'react-redux';
+import { userAction } from '../Redux/actionCreators'
 
 class LoginPage extends React.Component{
     constructor(){
@@ -21,6 +22,9 @@ class LoginPage extends React.Component{
         try{
             let { email, password } = this.state
            let UserLogin = await signin(email, password)
+           
+           this.props.userAction(UserLogin)
+           console.log(UserLogin)
             this.success(UserLogin)
         }catch(err){
             this.error(err)
@@ -105,6 +109,10 @@ class LoginPage extends React.Component{
         )
     }
 };
-export default LoginPage
 
-//come back to
+
+const mapDispatchToProps = {
+    userAction
+}
+
+export default connect(null, mapDispatchToProps)(LoginPage)

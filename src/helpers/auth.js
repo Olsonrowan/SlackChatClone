@@ -17,13 +17,13 @@ export function signout() {
   return auth().signOut()
 }
 
-// export function updateDisplayName(displayName, photoURL){
-//   return auth().currentUser.updateProfile({
-//     displayName: "",
-//     photoURL: ''
-//   }).then(function() {
-//     // Update successful.
-//   }).catch(function(error) {
-//     console.log(error)
-//   });
-// }
+export async function Register(displayName, email, password){
+  const registerSignUp = await auth().createUserWithEmailAndPassword(email, password)
+   auth().currentUser.updateProfile({
+    displayName
+  })
+  return registerSignUp
+}
+
+
+

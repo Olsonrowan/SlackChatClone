@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
-import { updateDisplayName } from '../helpers/auth'
+// import { Link } from 'react-router-dom'
+// import { updateDisplayName } from '../helpers/auth'
 //uuid
 
 class ProfilePage extends React.Component{
@@ -15,16 +15,27 @@ class ProfilePage extends React.Component{
     }
 
    
-    handleSubmit = async (event) =>{
-        event.preventDefault()
-        try {
-            let { displayName, photoUrl } = this.state
-            let updateProfile = await updateDisplayName(displayName, photoUrl)
-        } catch (err) {
-            this.error(err)
-        }
 
+
+    success(){
+        let { state } = this.props.location
+        if (state && state.from) {
+            this.props.history.push(state.from.pathname)
+        } else {
+            this.props.history.push('/')
+        }
     }
+
+    // handleSubmit = async (event) =>{
+    //     event.preventDefault()
+    //     try {
+    //         let { displayName } = this.state
+    //         let updateProfile = await updateDisplayName(displayName)
+    //         this.success(updateProfile)
+    //     } catch (err) {
+    //         this.error(err)
+    //     }
+    // }
 
 
     handleChange(event) {

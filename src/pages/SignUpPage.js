@@ -1,8 +1,11 @@
 import React from 'react';
 
-import { signup } from '../helpers/auth'
+import { Register } from '../helpers/auth'
 
 import { Link } from 'react-router-dom'
+import { userAction } from '../Redux/actionCreators'
+import { connect } from 'react-redux';
+
 
 
 
@@ -12,12 +15,10 @@ class SignUpPage extends React.Component{
         this.state = {
             email: '',
             password: '',
+            displayName: '',
             error: ''
         }
-        
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSignUp = this.handleSignUp.bind(this)
-        this.error = this.error.bind(this)
+    
     }
     
 
@@ -30,8 +31,10 @@ class SignUpPage extends React.Component{
     handleSignUp = async event =>{
         event.preventDefault()
         try {
-            let {email, password} = this.state
-            await signup(email, password)
+            let {displayName, email, password} = this.state
+            let signUpUser = await Register(displayName, email, password)
+            this.props.userAction(signUpUser)
+            console.log(signUpUser)
             this.success()
         } catch (err) {
             this.error(err)
@@ -39,7 +42,7 @@ class SignUpPage extends React.Component{
         
     }
     
-    success() {
+    success = () => {
         let { state } = this.props.location
         if (state && state.from) {
             this.props.history.push(state.from.pathname)
@@ -61,16 +64,16 @@ class SignUpPage extends React.Component{
         return(
         <div>
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <form >
 
-                {/* <label htmlFor="displayName">Display name:</label>
+                <label htmlFor="displayName">Display name:</label>
                     <input 
                     type='text' 
                     name='displayName' 
                     id="displayName" 
                     placeholder="Enter your display name" 
                     onChange={ this.handleChange } 
-                    value={ this.state.displayName }/> */}
+                    value={ this.state.displayName }/>
 
                     <label htmlFor="email">Email:</label>
                     <input 
@@ -89,7 +92,7 @@ class SignUpPage extends React.Component{
                     onChange={ this.handleChange } 
                     value={ this.state.password }/>
                     
-                    <button type="submit" onClick={this.handleSignUp} >Sign Up!</button>
+                    <button  onClick={this.handleSignUp} >Sign Up!</button>
                     
 
                 </form>
@@ -101,4 +104,8 @@ class SignUpPage extends React.Component{
         )
     }
 };
-export default SignUpPage
+
+const mapDispatchToProps ={
+  userAction
+}
+export default connect(null, mapDispatchToProps)(SignUpPage)

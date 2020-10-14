@@ -1,8 +1,9 @@
 import React from 'react'
-
+import {signout} from '../helpers/auth'
 import { Link } from 'react-router-dom'
 
 const WelcomePage = props => {
+    
     return (
         <div>
             { props.authenticated ?(
@@ -25,10 +26,14 @@ const WelcomePage = props => {
 
                     <button className="ui button">
                     <Link to="/signup">Sign up</Link>
-                    </button>
-                </div>
-                </div>
 
+                    </button>
+                    <div>
+                    <button onClick={() => signout()}>Sign out</button>
+                    </div>
+                </div>
+                </div>
+                
             )} 
         </div>
     )
