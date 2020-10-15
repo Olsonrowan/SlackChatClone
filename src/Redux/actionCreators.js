@@ -1,11 +1,13 @@
 import TYPES from './type'
+import firebase from 'firebase'
+
 export function userAction(userInfo){
+    firebase.firestore().collection('Users').add({ uid: userInfo.uid, displayName: userInfo.displayName})
+
     return {
         type: TYPES.USER_DATA,
         payload: {
-            uid: userInfo.user.uid,
-            displayName: userInfo.user.displayName,
-            photoUrl: userInfo.user.photoURL,
+            ...userInfo,
             authState: true
         }
     }
@@ -42,3 +44,22 @@ export function messageAction(messageList){
 }
 
 
+export function userLogout(authState){
+    return{
+        type: TYPES.USER_DISCONNECT,
+        payload:{
+            authState: false
+        }
+    }
+
+}
+
+export function userUpdate(userInfo){
+    return{
+        type: TYPES.USER_UPDATE,
+        payload:{
+            ...userInfo
+        }
+    }
+
+}

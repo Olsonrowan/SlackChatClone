@@ -9,41 +9,30 @@ class Messages extends React.Component{
         messages: ''
     }
     
-    // getMessages = () =>{
-    //     console.log(this.props.selectedChannel)
-    //     firebase.firestore().collection('Messages').where("channelId", "==", this.props.selectedChannel).get().then( response =>{
-    //         let messagesArr = [];
-    //         response.forEach(message => {
-    //             messagesArr.push({...message.data(), id: message.id})
-    //           });
-    //           console.log(messagesArr)
-    //           this.props.messageAction(messagesArr)
-
-    //           return messagesArr;
-    //         }, reject =>{
-    //           console.log(reject)
-    //         })
-
-    //     }
     
-    // componentDidMount(){
-    //     this.getMessages()
-    // }
-
    
     render(){
-        console.log(this.props)
         return(
             <div>
-                {this.props.messageList.map(message => <p key={message.id}>{message.messageBody}</p>)}
+                <div id="msgPOS" className="ui basic aligned segment">
+                    <div className="event" >
+                    <div className="label">   
+                </div>
+                <div className="content">
+                        {this.props.messageList.map(message => <div className="ui aligned segment" style={{maxWidth: "600px"}}> <p id="chatName" className="summary" key={message.id}>{this.props.user.displayName}:</p><p> {message.messageBody}</p></div>)}
+                </div>
+                </div>
+                </div>
             </div>
+
         )
     }
 }
 
 const mapStateToProps = state =>({
     messageList: state.messages.messageList,
-    selectedChannel: state.channels.selectedChannel
+    selectedChannel: state.channels.selectedChannel,
+    user: state.user
   })
   
   const mapDispatchToProps ={

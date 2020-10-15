@@ -16,7 +16,7 @@ class ChatMenu extends React.Component{
   addChannel = (event) =>{
     event.preventDefault()
     try{
-    db.collection('Channels').add({name: this.state.addChannel})
+    db.collection('Channels').add({name: this.state.addChannel, dateCreated: new Date()})
     this.getChatList()
     }catch(err){
       console.log(err)
@@ -40,12 +40,11 @@ class ChatMenu extends React.Component{
 }
 
    getChatList = async () =>{
-    return await db.collection('Channels').get().then(response =>{
+    return await db.collection('Channels').orderBy('dateCreated', 'desc').get().then(response =>{
       let channelArr = [];
       response.forEach(channel => {
         channelArr.push({...channel.data(), id: channel.id})
       });
-      console.log(channelArr)
       this.props.channelsAction(channelArr)
       return channelArr;
     }, reject =>{
@@ -93,7 +92,7 @@ class ChatMenu extends React.Component{
               <button onClick={this.addChannel}> ADD CHANNEL</button>
             </form>
             <div>
-      {this.props.channelslist.map(channel => <span  key={channel.id} onClick={() =>  this.selectChannel(channel.id)}>{channel.name}</span>)}
+      {this.props.channelslist.map(channel => <div id="Channels" className="ui aligned segment"  key={channel.id} onClick={() =>  this.selectChannel(channel.id)}><p >{channel.name}</p></div>)}
             </div>
           </div>
       )

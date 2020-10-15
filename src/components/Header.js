@@ -1,11 +1,26 @@
 import React from 'react'
-import signout from '../helpers/auth'
+import { useDispatch } from 'react-redux'
+import {auth} from 'firebase'
+import {userLogout} from '../Redux/actionCreators'
+// import {signout} from '../helpers/auth'
 
-function Header(props){
+function Header(){
+    const dispatch = useDispatch();
+
+    const logout = () =>{
+       auth().signOut() 
+       dispatch(userLogout())
+    }
+
  return(
 
      <div>
-         <button onClick={signout()}>Sign Out</button>
+        <div className="ui menu">
+            <div className="header item">Classroom Chatter!</div>
+            <a href="/home" className="item">Home</a>
+            <a href="/profile" className="item">Profile</a>
+            <a href="/login" onClick={logout} className="item">Sign out</a>
+        </div>
      </div>
 
  )

@@ -5,7 +5,6 @@ import { Register } from '../helpers/auth'
 import { Link } from 'react-router-dom'
 import { userAction } from '../Redux/actionCreators'
 import { connect } from 'react-redux';
-import firebase from 'firebase';
 
 
 
@@ -22,11 +21,10 @@ class SignUpPage extends React.Component{
     
     }
     
-    addUser = async (signUpUser) =>{
-        console.log(signUpUser)
-       return await firebase.firestore().collection('Users').add({uid: signUpUser.user.uid, displayName: signUpUser.user.displayName})
+    // addUser = async (signUpUser) =>{
+    //    return await firebase.firestore().collection('Users').add({uid: signUpUser.user.uid, displayName: signUpUser.user.displayName})
        
-    }
+    // }
 
     handleChange = event => {
         this.setState({
@@ -39,10 +37,16 @@ class SignUpPage extends React.Component{
         try {
             let {displayName, email, password} = this.state
             let signUpUser = await Register(displayName, email, password)
-            console.log(signUpUser, 'hereis what you look for')
+            console.log(signUpUser)
 
             // this.props.userAction(signUpUser)
-            this.props.userAction(this.addUser(signUpUser))
+            this.props.userAction({
+                uid: signUpUser.user.uid,
+                displayName: signUpUser.displayName,
+                photoURL: signUpUser.photoURL
+            })
+
+            // this.addUser(signUpUser)
             console.log(signUpUser)
             this.success()
         
@@ -57,7 +61,7 @@ class SignUpPage extends React.Component{
         if (state && state.from) {
             this.props.history.push(state.from.pathname)
         } else {
-            this.props.history.push('/')
+            this.props.history.push('/home')
         }
     }
 
@@ -72,9 +76,9 @@ class SignUpPage extends React.Component{
 
     render(){
         return(
-        <div>
-            <div>
-                <form >
+        <div className="ui container">
+            <div className="ui basic center aligned segment">
+                <form className=" ui form">
 
                 <label htmlFor="displayName">Display name:</label>
                     <input 
@@ -102,11 +106,13 @@ class SignUpPage extends React.Component{
                     onChange={ this.handleChange } 
                     value={ this.state.password }/>
                     
-                    <button  onClick={this.handleSignUp} >Sign Up!</button>
+                    <button className="ui blue small button" onClick={this.handleSignUp} >Create and Start Chatting!</button>
                     
 
                 </form>
-                <div >
+                
+                <span className="ui horizontal divider">/</span>
+                <div>
                     <p>Already have an account? <Link to="/login"> Sign in here</Link></p> 
                 </div>
             </div>

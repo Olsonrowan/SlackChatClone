@@ -18,11 +18,11 @@ export function signout() {
 }
 
 export async function Register(displayName, email, password){
-  const registerSignUp = await auth().createUserWithEmailAndPassword(email, password)
+  const {user} = await auth().createUserWithEmailAndPassword(email, password)
    auth().currentUser.updateProfile({
     displayName
   })
-  return registerSignUp
+  return {user, displayName}
 }
 
 

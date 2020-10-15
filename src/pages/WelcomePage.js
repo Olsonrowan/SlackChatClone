@@ -1,14 +1,14 @@
 import React from 'react'
-import {signout} from '../helpers/auth'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
+
 
 const WelcomePage = props => {
     
     return (
         <div>
             { props.authenticated ?(
-                null
-            ) : <div className="ui container">
+                <Redirect to="/home"></Redirect>
+            ) : <div className="ui basic center aligned segment">
                     <h1>Welcome to my Chat app! Please login or sign up </h1>
                 </div>}
 
@@ -16,22 +16,19 @@ const WelcomePage = props => {
                 <h1>Home</h1>
             ) : (
                 <div className="ui container">
-                <div className ="ui buttons">
-                    <button className="ui button">
-                    <Link to="/login">Login</Link>
-
-                    </button>
-
-                    <div className="or"></div>
-
-                    <button className="ui button">
-                    <Link to="/signup">Sign up</Link>
-
-                    </button>
-                    <div>
-                    <button onClick={() => signout()}>Sign out</button>
+                    <div className="ui basic center aligned segment">
+                        <button type="submit" className="ui inverted blue large button">
+                            <Link to="/login"> Login </Link>
+                        </button>
                     </div>
-                </div>
+                    <div className="ui horizontal divider">OR</div>
+                    <div className="ui basic center aligned segment">
+                        <button type="submit" className="ui large inverted green button">
+                            <Link to="/signup"> Sign up </Link>
+                        </button>
+                    </div>
+                    
+                
                 </div>
                 
             )} 

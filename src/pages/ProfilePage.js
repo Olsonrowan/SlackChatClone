@@ -1,23 +1,38 @@
 import React from 'react';
-// import { Link } from 'react-router-dom'
-// import { updateDisplayName } from '../helpers/auth'
-//uuid
+import { connect } from 'react-redux';
+import Header from '../components/Header'
+import {userAction, userUpdate} from '../Redux/actionCreators'
+import firebase from 'firebase'
 
 class ProfilePage extends React.Component{
-    constructor(){
-        super();
-        this.state = {
-            displayName: this.displayName,
-            photoUrl: this.photoUrl,
-            error: ''
-        }
-        this.handleChange = this.handleChange.bind(this)        
-    }
+    
 
    
+    updateUser = () =>{
+        try{
+        firebase.firestore().collection('Users').update({displayName: this.props.displayName, email: this.state.email})
+        }catch(err){
+          console.log(err)
+        }
+    
+    
+      }
 
 
-    success(){
+    handleUpdate = (event) =>{
+        event.preventDefault()
+        console.log(this.props.user.uid)
+        firebase.firestore().collection('Users').where("uid", "==", this.props.user.uid).get().then( response =>{
+              this.props.userUpdate(this.updateUser())
+                console.log(this.props.user.displayName)
+            }, reject =>{
+              console.log(reject)
+            })
+    
+        }
+
+
+    success=()=>{
         let { state } = this.props.location
         if (state && state.from) {
             this.props.history.push(state.from.pathname)
@@ -26,23 +41,14 @@ class ProfilePage extends React.Component{
         }
     }
 
-    // handleSubmit = async (event) =>{
-    //     event.preventDefault()
-    //     try {
-    //         let { displayName } = this.state
-    //         let updateProfile = await updateDisplayName(displayName)
-    //         this.success(updateProfile)
-    //     } catch (err) {
-    //         this.error(err)
-    //     }
-    // }
+    
 
 
-    handleChange(event) {
-        const {name, value, type, checked} = event.target
-        type === "checkbox" ? this.setState({ [name]: checked }) : this.setState({ [name]: value })
+    handleChange = event => {
+        this.setState({
+            [event.target.name]: event.target.value
+        })
     }
-
     
     error(err){
         console.log(err)
@@ -55,28 +61,57 @@ class ProfilePage extends React.Component{
     render(){
         return(
         <div>
-            <div>
-                <form onSubmit={this.handleSubmit}>
+            <Header></Header>
+            <div className="ui container">
+            <div className="ui basic center aligned segment" >
+                <form className="ui form">
 
                     <label htmlFor="displayName">Display Name</label>
                         <input 
                         type='text' 
                         name='displayName' 
                         id="displayName" 
-                        placeholder={this.state.displayName} 
+                        placeholder={this.props.user.displayName} 
                         onChange={ this.handleChange } 
-                        value={ this.state.displayName }
+                        value={ this.props.displayName }
                         />
+                            
+                        <label htmlFor="email">Email:</label>
+                        <input 
+                        type='email' 
+                        name='email' 
+                        id="email" 
+                        placeholder="E.g: shrek123@gmail.com" 
+                        onChange={ this.handleChange } 
+                        value={ this.props.email }/>
 
                         
-                    <button type="submit" onClick={this.handleSubmit}>Save</button>
+                        <button className="ui blue small button" onClick={this.handleUpdate}> Update and save. </button>
+                    
+
+                        
+                        {/* <input type="file" accept="image/*" multiple = "false" /> */}
+                        
+                    
 
                 </form>
+            </div>
+
+
             </div>
         </div>
         )
     }
 };
-export default ProfilePage
 
-//come back to
+const mapDispatchToProps ={
+   userAction,
+   userUpdate
+  }
+
+const mapStateToProps = state =>({
+    user: state.user
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage)
+

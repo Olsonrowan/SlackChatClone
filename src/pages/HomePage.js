@@ -1,9 +1,11 @@
 import React from 'react'
 import ChatMenu from '../components/ChatMenu'
 import Messages from '../components/Messages'
+import InputMsg from '../components/InputMsg'
 // import firebase from 'firebase'
 import { messageAction } from '../Redux/actionCreators'
 import { connect } from 'react-redux'
+import Header from '../components/Header'
 
 
 class Homepage extends React.Component{
@@ -12,12 +14,24 @@ class Homepage extends React.Component{
 
     render(){
  return(
-
-     <div>
-         <h1>Home</h1>
-         <ChatMenu/>
-         <Messages/>
+  <div>  
+    <div>
+        <Header/>
+    </div>
+    <div id="homePos">
+      <div className="ui aligned segment small" style={{maxWidth: '345px', height: '100%', display: 'flex'}}>
+        <ChatMenu/>
      </div>
+    <div className="ui container" >
+      <div >
+        <Messages/>
+      
+        <InputMsg/>
+      </div>
+      </div>
+    </div>
+         
+  </div> 
 
  )
 }
@@ -26,6 +40,7 @@ class Homepage extends React.Component{
 const mapStateToProps = state =>({
     messageList: state.messages.messageList,
     selectedChannel: state.channels.selectedChannel
+
   })
   
   const mapDispatchToProps ={

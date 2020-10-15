@@ -1,0 +1,23 @@
+body{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+} 
+/* #msgPOS{
+    display: flex;
+    flex-direction: column;
+    margin-left: 350px;
+} */
+#homePos{
+    display: flex;
+    overflow: auto;
+    height: 100%;
+}
+#chatName{
+    font-weight: 900;
+    font-size: 15px;
+}
+
+#Channels{
+    margin-top: 25px;
+}
