@@ -5,12 +5,17 @@ import {userAction, userUpdate} from '../Redux/actionCreators'
 import firebase from 'firebase'
 
 class ProfilePage extends React.Component{
-    
+    state={
+        email: this.props.user.email,
+        displayName: this.props.user.displayName,
+        error: ''
+    }
 
+    // email: this.state.email
    
-    updateUser = () =>{
+    updateUser = (user) =>{
         try{
-        firebase.firestore().collection('Users').update({displayName: this.props.displayName, email: this.state.email})
+        firebase.firestore().collection('Users').doc(user).update({displayName: this.state.displayName})
         }catch(err){
           console.log(err)
         }
@@ -22,8 +27,12 @@ class ProfilePage extends React.Component{
     handleUpdate = (event) =>{
         event.preventDefault()
         console.log(this.props.user.uid)
+        
         firebase.firestore().collection('Users').where("uid", "==", this.props.user.uid).get().then( response =>{
-              this.props.userUpdate(this.updateUser())
+            response.forEach( user => {
+                this.props.userUpdate(this.updateUser(user.id))
+
+            });
                 console.log(this.props.user.displayName)
             }, reject =>{
               console.log(reject)
@@ -73,9 +82,9 @@ class ProfilePage extends React.Component{
                         id="displayName" 
                         placeholder={this.props.user.displayName} 
                         onChange={ this.handleChange } 
-                        value={ this.props.displayName }
+                        value={ this.state.displayName }
                         />
-                            
+{/*                             
                         <label htmlFor="email">Email:</label>
                         <input 
                         type='email' 
@@ -83,7 +92,7 @@ class ProfilePage extends React.Component{
                         id="email" 
                         placeholder="E.g: shrek123@gmail.com" 
                         onChange={ this.handleChange } 
-                        value={ this.props.email }/>
+                        value={ this.state.email }/> */}
 
                         
                         <button className="ui blue small button" onClick={this.handleUpdate}> Update and save. </button>

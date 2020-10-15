@@ -21,3 +21,13 @@ body{
 #Channels{
     margin-top: 25px;
 }
+
+#msgbox{
+    position: fixed;
+    bottom: 0;
+    width: 600px;
+}
+
+#root{
+    height: 100%
+}

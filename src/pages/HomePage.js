@@ -23,10 +23,10 @@ class Homepage extends React.Component{
         <ChatMenu/>
      </div>
     <div className="ui container" >
-      <div >
+      <div className="ui container" >
         <Messages/>
       
-        <InputMsg/>
+        <InputMsg />
       </div>
       </div>
     </div>

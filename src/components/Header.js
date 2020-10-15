@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import {auth} from 'firebase'
 import {userLogout} from '../Redux/actionCreators'
+import { Link } from 'react-router-dom';
 // import {signout} from '../helpers/auth'
 
 function Header(){
@@ -17,9 +18,9 @@ function Header(){
      <div>
         <div className="ui menu">
             <div className="header item">Classroom Chatter!</div>
-            <a href="/home" className="item">Home</a>
-            <a href="/profile" className="item">Profile</a>
-            <a href="/login" onClick={logout} className="item">Sign out</a>
+            <Link to="/home" className="item">Home</Link>
+            <Link to="/profile" className="item" >Profile</Link>
+            <Link to="/login" onClick={logout} className="item">Sign out</Link>
         </div>
      </div>
 

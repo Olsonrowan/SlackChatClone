@@ -17,7 +17,7 @@ import firebase from 'firebase'
     addMsg = (event) =>{
         event.preventDefault()
         try{
-        firebase.firestore().collection('messages').add({messageBody: this.state.message,  dateCreated: new Date() ,channelId: this.props.channelId, userId: this.props.user.uid})
+        firebase.firestore().collection('messages').add({messageBody: this.state.message,  dateCreated: new Date(), channelId: this.props.channelId.id, displayName: this.props.user.displayName, userId: this.props.user.uid})
         
         this.getMessages()
         }catch(err){
@@ -29,7 +29,7 @@ import firebase from 'firebase'
 
 
     getMessages = () =>{
-        firebase.firestore().collection('messages').where("channelId", "==", this.props.channelId).orderBy('dateCreated','asc').get().then( response =>{
+        firebase.firestore().collection('messages').where("channelId", "==", this.props.channelId.id).orderBy('dateCreated','asc').get().then( response =>{
             let messagesArr = [];
             response.forEach(message => {
                 messagesArr.push({...message.data(), id: message.id})
@@ -56,8 +56,8 @@ import firebase from 'firebase'
     render(){
         return(
             
-            <div className="ui basic  aligned segment" >
-                <form className="ui form">
+            <div id="msgbox" className="ui basic center aligned segment" >
+                <form className="ui form" >
 
                     
                         <textarea 

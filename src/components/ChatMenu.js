@@ -28,9 +28,9 @@ class ChatMenu extends React.Component{
 
 
 
-  selectChannel = (channelId) =>{
-    this.props.channelSelect(channelId)
-    console.log(this.props.selectedChannel)
+  selectChannel = (channel) =>{
+    console.log(channel.id)
+    this.props.channelSelect(channel)
     this.getMessages()
   } 
 
@@ -54,7 +54,8 @@ class ChatMenu extends React.Component{
 
 
   getMessages = () =>{
-    firebase.firestore().collection('messages').where("channelId", "==", this.props.selectedChannel).get().then( response =>{
+    console.log(this.props.selectedChannel)
+    firebase.firestore().collection('messages').where("channelId", "==", this.props.selectedChannel.id).get().then( response =>{
         let messagesArr = [];
         response.forEach(message => {
             messagesArr.push({...message.data(), id: message.id})
@@ -78,7 +79,7 @@ class ChatMenu extends React.Component{
       
   render(){
       return(
-          <div>
+          <div className="ui container">
             <form >
               <input
               name="addChannel"
@@ -88,11 +89,11 @@ class ChatMenu extends React.Component{
               onChange={ this.handleChange } 
               value={this.state.addChannel}
               />
-              
-              <button onClick={this.addChannel}> ADD CHANNEL</button>
+               <span className="ui horizontal divider"> </span>
+              <button className="ui blue small button" onClick={this.addChannel}> ADD CHANNEL</button>
             </form>
             <div>
-      {this.props.channelslist.map(channel => <div id="Channels" className="ui aligned segment"  key={channel.id} onClick={() =>  this.selectChannel(channel.id)}><p >{channel.name}</p></div>)}
+      {this.props.channelslist.map((channel, index) => <div id="Channels" className="ui aligned segment"  key={index} onClick={() =>  this.selectChannel(channel)}><p >{channel.name}</p></div>)}
             </div>
           </div>
       )

@@ -25,11 +25,11 @@ export function channelsAction(channelslist){
 }
 
 
-export function channelSelect(channelId){
+export function channelSelect(selectedChannel){
 return{
     type: TYPES.CHANNEL_SELECT,
     payload:{
-        channelId
+        ...selectedChannel
     }
 }
 }

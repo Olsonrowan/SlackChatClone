@@ -2,7 +2,7 @@ import TYPES from "./type";
 import { combineReducers } from 'redux'
 
 
-export function userReducer(state = {authState: true, uid: 'wQJc8h6teCY0WC45WFegSetkZpS2', photoUrl: null, displayName: 'Rowan' 
+export function userReducer(state = { authState: true, uid: 'wQJc8h6teCY0WC45WFegSetkZpS2', photoUrl: null, displayName: 'Rowan'
 }, action){
     if(action.type === TYPES.USER_DATA){
         return {
@@ -32,7 +32,7 @@ export default combineReducers({
 
 })
 
-export function channelReducer(state = {channelslist:[{name: 'General'}], selectedChannel: 'ZKHtEYB7B6foq4qDpkv8'}, action){ //general is default channel
+export function channelReducer(state = {channelslist:[{name: 'General'}], selectedChannel: {id: ''}}, action){ //general is default channel
     if(action.type === TYPES.CHANNEL_DATA){
         return {
             ...state,
@@ -41,7 +41,7 @@ export function channelReducer(state = {channelslist:[{name: 'General'}], select
     }else if(action.type === TYPES.CHANNEL_SELECT) {
         return{
             ...state,
-            selectedChannel: action.payload.channelId
+            selectedChannel: action.payload
         }
          
     } else {
@@ -51,7 +51,7 @@ export function channelReducer(state = {channelslist:[{name: 'General'}], select
 }
 
 
-export function MessageReducer(state = {messageList:[{messageBody: 'default msg', userId: 'wQJc8h6teCY0WC45WFegSetkZpS2', channelId: 'ZKHtEYB7B6foq4qDpkv8'}]}, action){
+export function MessageReducer(state = {messageList:[{messageBody: 'default msg', displayName:'rowan', userId: 'wQJc8h6teCY0WC45WFegSetkZpS2', channelId: 'ZKHtEYB7B6foq4qDpkv8'}]}, action){
     if (action.type === TYPES.MESSAGE_DATA){
         return{
             ...state,
